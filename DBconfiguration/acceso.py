@@ -11,25 +11,26 @@ DB_PASSWORD = "p4ssw0rdDB"
 def conectar_db():
     """Conecta a la base de datos PostgreSQL y retorna la conexión."""
     try:
-    conn = psycopg2.connect(
-        host=DB_HOST,
-        port=DB_PORT,
-        database=DB_NAME,
-        user=DB_USER,
-        password=DB_PASSWORD
-    )
-    return conn
-except Exception as e:
-    print(e)
-    #print("Error de conexión a la base de datos:", e)
-    return None
+        conn = psycopg2.connect(
+            host=DB_HOST,
+            port=DB_PORT,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASSWORD
+        )
+        return conn
+    except Exception as e:
+        print(e)
+        #print("Error de conexión a la base de datos:", e)
+        return None
 
 def obtener_datos_usuario(username, password):
     """Consulta la base de datos para obtener los datos de un usuario a partir de sus credenciales."""
     conn = conectar_db()
     if not conn:
         return
-    try:
+    
+try:
     cursor = conn.cursor()
 
     # Verificar si el usuario y contraseña existen en la tabla credenciales
@@ -62,7 +63,9 @@ if __name__ == "__main__":
 
     # Solicitar credenciales al usuario
     username = input("Ingrese su usuario: ")
-    password = getpass.getpass("Ingrese su contraseña: ") # No muestra la contraseña al escribir
+    password = input("Ingrese su contraseña: ")
+    # Se muestra la contraseña al escribir
+    #password = getpass.getpass("Ingrese su contraseña: ") # No muestra la contraseña al escribir
 
     # Consultar la base de datos
     obtener_datos_usuario(username, password)
